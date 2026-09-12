@@ -26,6 +26,8 @@ Consequential actions are intentionally outside the LLM toolset. The owner appro
 
 ## Architecture
 
+![CaniFriend v0.1 architecture](docs/CaniFriend-Architecture.svg)
+
 ```text
 CaniFriend Web
     |
@@ -50,6 +52,8 @@ Strands Care Agent
                          proof + CAIOS outcome
 ```
 
+See `docs/ARCHITECTURE.md` for the trust and memory boundaries.
+
 ## Safety rule
 
 > AI recommends. Policy authorizes. Humans approve consequential care handoffs.
@@ -67,10 +71,9 @@ See `docs/LIVE-PROOF.md`, `docs/OBSERVABILITY-PROOF.md`, and `docs/DEMO-SCREENPL
 ```text
 agent/      Strands agent, deterministic actions, audit, API adapters
 web/        five-screen judge UI and live/fallback API client
-gateway/    tool contracts and policy boundary
 shared/     stable data contracts
 tests/      safety, runtime, state-transition, and web-contract tests
-docs/       architecture, demo, security, deployment, video, submission
+docs/       architecture, demo, observability, deployment, video, submission
 infra/      AgentCore verification/deployment helpers
 ```
 
