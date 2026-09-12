@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CaniFriend — Judge Recording Mode</title>
+  <style>
+    :root{--cream:#f7f4ea;--paper:#fffdf7;--ink:#18322a;--muted:#6d786f;--green:#386c55;--green2:#e5efe7;--line:#d9dfd7;--amber:#f4ead0;--shadow:0 18px 60px rgba(35,57,46,.12)}
+    *{box-sizing:border-box} body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,textarea{font:inherit} button{cursor:pointer}.shell{min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;padding:28px;max-width:1260px;margin:auto}
+    .phone{background:var(--paper);border:1px solid var(--line);border-radius:34px;box-shadow:var(--shadow);min-height:760px;overflow:hidden;position:relative}.top{display:flex;justify-content:space-between;align-items:center;padding:22px 26px;border-bottom:1px solid var(--line)}
+    .brand{font-weight:800;letter-spacing:-.03em;font-size:22px}.live{display:inline-flex;align-items:center;gap:8px;background:var(--green2);padding:8px 12px;border-radius:999px;font-size:13px;font-weight:700}.dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+    main{padding:30px}.screen{display:none;animation:fade .25s ease}.screen.active{display:block}@keyframes fade{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
+    h1{font-size:42px;line-height:1.03;letter-spacing:-.045em;margin:12px 0 12px;max-width:720px}h2{font-size:30px;letter-spacing:-.035em;margin:0 0 12px}.sub{color:var(--muted);font-size:17px;line-height:1.55;max-width:670px}.pet{display:flex;align-items:center;gap:14px;margin-bottom:24px}.avatar{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--green2);font-size:28px}.pet strong{display:block;font-size:18px}.pet span{color:var(--muted)}
+    .card{border:1px solid var(--line);border-radius:22px;padding:20px;margin:18px 0;background:#fff}.status{display:flex;justify-content:space-between;gap:16px;align-items:center}.warn{background:var(--amber);border:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.metric{padding:14px;border-radius:16px;background:var(--green2)}.metric small{display:block;color:var(--muted);margin-bottom:4px}.metric b{font-size:18px}
+    textarea{width:100%;min-height:105px;border:1px solid var(--line);border-radius:18px;padding:16px;background:#fff;color:var(--ink);resize:none;line-height:1.5}.primary{border:0;border-radius:16px;background:var(--green);color:white;padding:15px 20px;font-weight:800;font-size:16px}.secondary{border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);padding:11px 14px;font-weight:700}.wide{width:100%;margin-top:14px}.reason{border-left:4px solid var(--green);padding-left:14px;color:var(--muted);line-height:1.5}.gate{border:2px solid var(--green);background:var(--green2)}.gate-title{font-size:14px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.checks label{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-weight:650}.checks input{width:20px;height:20px}.complete{font-size:46px;font-weight:900;letter-spacing:-.045em}.proof{display:grid;gap:10px}.proof div{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
+    aside{display:flex;flex-direction:column;gap:14px}.panel{background:rgba(255,253,247,.86);border:1px solid var(--line);border-radius:22px;padding:18px}.panel h3{margin:0 0 12px;font-size:15px}.trace{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.6;color:#40564c;min-height:260px}.trace div{padding:7px 0;border-bottom:1px dashed var(--line)}.controls{display:flex;gap:8px;flex-wrap:wrap}.golden{font-size:13px;color:var(--muted);line-height:1.5}.step{font-weight:800;color:var(--green)}
+    @media(max-width:900px){.shell{grid-template-columns:1fr;padding:12px}.phone{min-height:720px;border-radius:24px}aside{display:none}main{padding:22px}h1{font-size:36px}.grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <section class="phone" aria-label="CaniFriend judge demo">
+    <header class="top"><div class="brand">CaniFriend</div><div class="live"><span class="dot"></span><span id="liveLabel">Live AgentCore</span></div></header>
+    <main>
+      <section class="screen active" data-screen="home">
+        <div class="pet"><div class="avatar">🐾</div><div><strong>Pika</strong><span>Pomeranian · CAIOS companion</span></div></div>
+        <h1>Pika needs dinner tonight.</h1><p class="sub">No caregiver confirmed. CaniFriend can coordinate someone Pika already knows and trusts.</p>
+        <div class="card warn status"><div><strong>Tonight’s care</strong><div class="sub">Dinner · target 7:00 PM</div></div><span>Needs backup</span></div>
+        <textarea id="request">I can't get home tonight. Make sure Pika gets dinner.</textarea>
+        <button class="primary wide" onclick="findCare()">Find someone I trust</button>
+      </section>
+
+      <section class="screen" data-screen="match">
+        <div class="pet"><div class="avatar">🐾</div><div><strong>Pika</strong><span>Minimum necessary care context</span></div></div>
+        <h2>Neighbor A is the strongest match.</h2><p class="sub">CaniFriend checked availability, authorization, familiarity and previous care outcomes.</p>
+        <div class="card"><div class="grid"><div class="metric"><small>Dinner</small><b>CaniBowl Chicken 100g</b></div><div class="metric"><small>Target</small><b>7:00 PM</b></div><div class="metric"><small>Familiarity</small><b>High</b></div><div class="metric"><small>History</small><b>8 tasks · 100%</b></div></div></div>
+        <div class="card"><strong>Neighbor A · Recommended</strong><p class="reason">Available tonight, authorized for feeding, already knows Pika, and has completed 8 previous care tasks.</p></div>
+        <button class="primary wide" onclick="showScreen('approval')">Review care plan</button>
+      </section>
+
+      <section class="screen" data-screen="approval">
+        <h2>You stay in control.</h2><p class="sub">The agent may recommend a handoff. It cannot authorize one.</p>
+        <div class="card gate"><div class="gate-title">Owner Approval Required</div><h2 style="margin-top:10px">Neighbor A · Feed Pika · 7:00 PM</h2><p>Share only tonight’s feeding instructions, water check and general-condition note.</p></div>
+        <button class="primary wide" onclick="approveCare()">Approve Care Plan</button>
+      </section>
+
+      <section class="screen" data-screen="mission">
+        <div class="pet"><div class="avatar">🐾</div><div><strong>Pika’s Dinner</strong><span>Approved care mission · Neighbor A</span></div></div>
+        <h2>Simple instructions. Minimum data.</h2>
+        <div class="card"><strong>CaniBowl Chicken · 100g</strong><div class="sub">Target 7:00 PM</div><div class="checks"><label><input id="feed" type="checkbox"> Feed Pika</label><label><input id="water" type="checkbox"> Refresh water</label><label><input id="condition" type="checkbox"> Check general condition</label></div></div>
+        <button class="primary wide" onclick="completeCare()">Complete Care + Proof</button>
+      </section>
+
+      <section class="screen" data-screen="complete">
+        <div class="complete">CARE COMPLETE ✓</div><p class="sub">The physical task is finished, proof is captured, and the verified outcome is ready for Pika’s longitudinal record.</p>
+        <div class="card proof"><div><span>Fed</span><b>7:04 PM ✓</b></div><div><span>Water</span><b>Refreshed ✓</b></div><div><span>Condition</span><b>Normal ✓</b></div><div><span>Proof</span><b>Received ✓</b></div><div><span>CAIOS CareEvent</span><b id="recordState">Recording…</b></div></div>
+        <button class="secondary wide" onclick="resetDemo()">Reset Demo</button>
+      </section>
+    </main>
+  </section>
+
+  <aside>
+    <div class="panel"><h3>Judge Recording Mode</h3><div class="golden"><span class="step" id="stepLabel">1 / 5 · Care Need</span><br>Golden path is fixed to Pika → Neighbor A → owner approval → care proof → CAIOS.</div></div>
+    <div class="panel"><h3>Agent trace</h3><div class="trace" id="trace"><div>Ready · waiting for owner request</div></div></div>
+    <div class="panel"><h3>Recording controls</h3><div class="controls"><button class="secondary" onclick="resetDemo()">Reset Demo</button><button class="secondary" onclick="toggleTrace()">Toggle Agent trace</button></div></div>
+    <div class="panel golden"><strong>Safety boundary</strong><br><br>AI recommends. Policy authorizes. Human approves consequential care handoffs.</div>
+  </aside>
+</div>
+<script src="demo.js"></script>
+</body>
+</html>
