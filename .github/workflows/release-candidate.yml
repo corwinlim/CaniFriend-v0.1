@@ -1,0 +1,80 @@
+name: Release Candidate Certification
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: agent/requirements.txt
+
+      - name: Install dependencies from repository
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r agent/requirements.txt
+
+      - name: Run full test suite
+        env:
+          CANIFRIEND_AGENT_MODE: deterministic
+        run: pytest -q
+
+      - name: Certify deterministic Pika judge path
+        env:
+          CANIFRIEND_AGENT_MODE: deterministic
+        run: |
+          python - <<'PY'
+          from agent.agentcore_app import handle_payload
+          from agent.tools import PLANS
+
+          PLANS.clear()
+          result = handle_payload({
+              'action': 'agent',
+              'pet_id': 'pika',
+              'prompt': "I can't get home tonight. Make sure Pika gets dinner.",
+          })
+
+          assert result['mode'] == 'deterministic'
+          assert result['ok'] is True
+          assert result['recommended_carer']['carer_id'] == 'neighbor-a'
+          assert result['care_plan']['status'] == 'proposed'
+          assert result['care_plan']['owner_approved'] is False
+          assert result['care_plan']['requires_owner_approval'] is True
+          assert result['pet']['dinner'] == 'CaniBowl Chicken'
+          assert result['pet']['amount_g'] == 100
+          assert result['pet']['target_time'] == '19:00'
+
+          print('RC_CERT_PASS')
+          print('pet=Pika')
+          print('carer=Neighbor A')
+          print('dinner=CaniBowl Chicken 100g')
+          print('target=19:00')
+          print('status=proposed')
+          print('owner_approved=false')
+          print('owner_approval_required=true')
+          PY
+
+      - name: Public release invariant checks
+        run: |
+          test -f LICENSE
+          test -f README.md
+          test -f docs/CaniFriend-Architecture.svg
+          grep -q 'MIT License' LICENSE
+          grep -q 'Prior work and Background IP' README.md
+          grep -q 'Owner Approval Required' web/demo.html
+          grep -q 'Strands Agents SDK' README.md
+          echo 'PUBLIC_INVARIANTS_PASS'
