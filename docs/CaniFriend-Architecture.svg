@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="920" viewBox="0 0 1400 920" role="img" aria-labelledby="title desc">
+<title id="title">CaniFriend v0.1 Architecture</title>
+<desc id="desc">Pet owner uses CaniFriend Web and BFF, which invokes Amazon Bedrock AgentCore Runtime hosting a Strands Care Agent. The agent uses safe tools to retrieve pet context, find trusted carers and create a proposed care plan. A human owner approval gate sits before deterministic care mission execution. Verified outcomes are recorded to CAIOS.</desc>
+<rect width="1400" height="920" rx="36" fill="#f7f4ea"/>
+<text x="90" y="85" font-family="Arial,Helvetica,sans-serif" font-size="42" font-weight="700" fill="#18322a">CaniFriend v0.1 — Agentic Care Handoff</text>
+<text x="90" y="125" font-family="Arial,Helvetica,sans-serif" font-size="21" fill="#5e6d64">AI recommends. Policy authorizes. Humans approve consequential care handoffs.</text>
+
+<defs>
+  <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#386c55"/></marker>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity="0.10"/></filter>
+</defs>
+
+<g font-family="Arial,Helvetica,sans-serif" filter="url(#shadow)">
+  <rect x="90" y="190" width="230" height="105" rx="22" fill="#fffdf7" stroke="#cfd8d1"/>
+  <text x="205" y="232" text-anchor="middle" font-size="24" font-weight="700" fill="#18322a">Pet Owner</text>
+  <text x="205" y="266" text-anchor="middle" font-size="17" fill="#65736a">Natural-language care need</text>
+
+  <rect x="410" y="190" width="260" height="105" rx="22" fill="#fffdf7" stroke="#cfd8d1"/>
+  <text x="540" y="232" text-anchor="middle" font-size="24" font-weight="700" fill="#18322a">CaniFriend Web / BFF</text>
+  <text x="540" y="266" text-anchor="middle" font-size="17" fill="#65736a">Authenticated request boundary</text>
+
+  <rect x="760" y="175" width="340" height="135" rx="22" fill="#e5efe7" stroke="#9eb9a8"/>
+  <text x="930" y="220" text-anchor="middle" font-size="24" font-weight="700" fill="#18322a">Amazon Bedrock AgentCore</text>
+  <text x="930" y="254" text-anchor="middle" font-size="18" fill="#386c55">Runtime · HTTP</text>
+  <text x="930" y="284" text-anchor="middle" font-size="17" fill="#65736a">Strands CaniFriend Care Agent</text>
+
+  <rect x="760" y="390" width="340" height="190" rx="22" fill="#fffdf7" stroke="#cfd8d1"/>
+  <text x="930" y="430" text-anchor="middle" font-size="23" font-weight="700" fill="#18322a">Safe Tool Layer</text>
+  <text x="800" y="475" font-size="18" fill="#18322a">• get_pet_context</text>
+  <text x="800" y="510" font-size="18" fill="#18322a">• find_trusted_carers</text>
+  <text x="800" y="545" font-size="18" fill="#18322a">• create_care_plan → PROPOSED</text>
+
+  <rect x="445" y="390" width="235" height="190" rx="22" fill="#f4ead0" stroke="#d8bd79" stroke-width="2"/>
+  <text x="562" y="437" text-anchor="middle" font-size="22" font-weight="700" fill="#18322a">Human Owner</text>
+  <text x="562" y="472" text-anchor="middle" font-size="22" font-weight="700" fill="#18322a">Approval Gate</text>
+  <text x="562" y="518" text-anchor="middle" font-size="16" fill="#725c23">Required before handoff</text>
+  <text x="562" y="548" text-anchor="middle" font-size="16" fill="#725c23">LLM cannot self-authorize</text>
+
+  <rect x="90" y="390" width="260" height="190" rx="22" fill="#fffdf7" stroke="#cfd8d1"/>
+  <text x="220" y="435" text-anchor="middle" font-size="23" font-weight="700" fill="#18322a">Trusted Neighbor</text>
+  <text x="220" y="475" text-anchor="middle" font-size="17" fill="#65736a">Accepts mission</text>
+  <text x="220" y="508" text-anchor="middle" font-size="17" fill="#65736a">Performs physical care</text>
+  <text x="220" y="541" text-anchor="middle" font-size="17" fill="#65736a">Submits proof + observation</text>
+
+  <rect x="370" y="690" width="300" height="120" rx="22" fill="#fffdf7" stroke="#cfd8d1"/>
+  <text x="520" y="738" text-anchor="middle" font-size="23" font-weight="700" fill="#18322a">Verified Care Outcome</text>
+  <text x="520" y="775" text-anchor="middle" font-size="17" fill="#65736a">State transition + proof validation</text>
+
+  <rect x="790" y="690" width="300" height="120" rx="22" fill="#e5efe7" stroke="#9eb9a8"/>
+  <text x="940" y="738" text-anchor="middle" font-size="23" font-weight="700" fill="#18322a">CAIOS</text>
+  <text x="940" y="775" text-anchor="middle" font-size="17" fill="#65736a">Authoritative CareEvent system of record</text>
+</g>
+
+<g stroke="#386c55" stroke-width="4" fill="none" marker-end="url(#arrow)">
+  <path d="M320 242 H405"/>
+  <path d="M670 242 H755"/>
+  <path d="M930 310 V385"/>
+  <path d="M760 485 H685"/>
+  <path d="M445 485 H355"/>
+  <path d="M220 580 C220 650 360 650 450 685"/>
+  <path d="M670 750 H785"/>
+</g>
+
+<text x="1190" y="425" font-family="Arial,Helvetica,sans-serif" font-size="17" fill="#65736a">Agent context</text>
+<text x="1190" y="452" font-family="Arial,Helvetica,sans-serif" font-size="17" fill="#65736a">≠ authoritative pet record</text>
+<line x1="1160" y1="390" x2="1160" y2="580" stroke="#9eb9a8" stroke-width="3" stroke-dasharray="7 7"/>
+<text x="90" y="875" font-family="Arial,Helvetica,sans-serif" font-size="16" fill="#65736a">Production proof: CodeBuild ARM64 → ECR → AgentCore Runtime READY → Strands + Bedrock live invocation → CloudWatch observability.</text>
+</svg>
