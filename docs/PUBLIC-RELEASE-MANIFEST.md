@@ -1,6 +1,6 @@
 # CaniFriend v0.1 — Public Release Manifest
 
-Status: **PRE-PUBLISH / RC CERTIFICATION IN PROGRESS**. This document defines the intended public hackathon boundary. It does not authorize changing repository visibility.
+Status: **PRE-PUBLISH / RC CERTIFIED**. This document defines the intended public hackathon boundary. It does not authorize changing repository visibility.
 
 ## Include
 
@@ -38,37 +38,45 @@ Only synthetic/demo pet, owner, neighbor, permission, care-plan, observation, an
 
 ## Public AWS evidence policy
 
-Public proof should establish the technical claim while minimizing infrastructure disclosure. Allowed evidence includes:
+Public proof should establish the technical claim while minimizing infrastructure disclosure. Allowed evidence includes region, selected model ID, runtime status, HTTP status, non-sensitive timing, permission behavior, and redacted build/runtime outcomes. Do not publish account-specific control-plane identifiers merely to make the proof look more detailed.
 
-- region
-- selected model ID
-- runtime status
-- HTTP success/failure status
-- non-sensitive latency/timing
-- permission behavior (allowed/denied)
-- redacted build/runtime outcome
+## Release-candidate certification — PASS
 
-Do not publish account-specific control-plane identifiers merely to make the proof look more detailed.
+Exact-checkout GitHub Actions certification completed successfully on 2026-09-13 MYT for release-candidate commit `cfadc9c9204360ea227faf5a01f7da296566437f`.
 
-## Release-candidate certification
+Observed successful steps:
 
-`.github/workflows/release-candidate.yml` performs the exact-repository gate on a fresh GitHub-hosted runner. It checks out the commit, sets up Python 3.11, installs `agent/requirements.txt`, runs the full `pytest -q` suite, executes the deterministic Pika dinner path, and asserts that Neighbor A is selected while the care plan remains `proposed`, `owner_approved=false`, and `requires_owner_approval=true`.
+- exact repository checkout
+- Python 3.11 setup
+- dependency installation from `agent/requirements.txt`
+- full `pytest -q` suite
+- deterministic Pika dinner judge-path certification
+- public-release invariant checks
 
-A workflow file existing in the repository is not itself a PASS. This gate becomes PASS only after a completed successful run is observed for the current release candidate.
+The deterministic certification asserts that Neighbor A is selected, dinner remains CaniBowl Chicken 100g at 19:00, and the care plan remains `proposed`, `owner_approved=false`, and `requires_owner_approval=true` before the human gate.
+
+## Human/static final review — PASS WITH PUBLICATION GATE
+
+A final repository-surface review found the intended hackathon-only code, synthetic fixtures, tests, web judge UI, redacted AWS evidence, documentation, and MIT license. No unresolved credential-pattern finding was returned by the final repository search. The README explicitly separates hackathon implementation from CAIOS Background IP. AWS proof docs omit unnecessary account-specific build/runtime/log identifiers.
+
+This review does **not** include future screenshots/video; those must be separately checked before upload. It also does not authorize repository publication.
 
 ## Publication gates
 
-Before changing repository visibility to public, all of the following must be true:
+Technical gates now satisfied:
 
-1. Repository-wide secret-pattern scan has no unresolved findings.
-2. Human review confirms no real customer, owner, veterinary, or operational data is present.
-3. README cold-start instructions are internally consistent with the repository.
-4. Exact-checkout RC certification installs dependencies and executes `pytest -q` successfully in a supported Python environment.
-5. The deterministic Pika dinner judge path passes and stops at the human approval boundary.
-6. Architecture and proof docs contain no unnecessary account-specific/private deployment identifiers.
-7. Demo screenshots/video are separately checked for secrets and private AWS identifiers.
-8. Repository still contains the MIT `LICENSE` and the prior-work / Background-IP disclosure.
-9. Corwin gives explicit publication authorization. Generic instructions such as “继续” or “下一步” are **not** publication authorization.
+1. Repository-wide secret-pattern scan: PASS for reviewed current `main`.
+2. Human/static repository review: PASS for reviewed current `main`.
+3. README cold-start consistency: PASS.
+4. Exact-checkout install + `pytest -q`: PASS.
+5. Deterministic Pika judge path / human approval boundary: PASS.
+6. Architecture and proof-doc redaction: PASS.
+7. MIT license + Background-IP disclosure: PASS.
+
+Still required before/at publication:
+
+8. Demo screenshots/video must be separately checked for secrets/private AWS identifiers before upload.
+9. Corwin must give explicit publication authorization. Generic instructions such as “继续” or “下一步” are **not** publication authorization.
 
 ## Post-publication verification
 
