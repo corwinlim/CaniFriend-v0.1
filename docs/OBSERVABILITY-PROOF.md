@@ -6,19 +6,17 @@ Verified on 2026-09-12.
 
 Amazon CloudWatch logs are enabled for the deployed Amazon Bedrock AgentCore Runtime used by CaniFriend.
 
-Log group:
+The public repository intentionally omits account-specific log-group names, runtime IDs, session IDs, role identifiers, and control-plane resource identifiers. Those values are not needed to evaluate the agent behavior and should not become part of the public hackathon surface.
 
-`/aws/bedrock-agentcore/runtimes/CaniFriendRuntime-k6Ik8Q9n01-DEFAULT`
+Observed successful runs included:
 
-Observed successful sessions:
-
-- Health check session: success, approximately 0.000 s
-- Live agent session `canifriend-agent-session-20260912-0002`: success, approximately 1.951 s
-- Final judge-path session `canifriend-agent-session-20260912-0003`: success, approximately 2.666 s
+- Health check: success, approximately 0.000 s
+- Live Strands agent invocation: success, approximately 1.951 s
+- Final judge-path invocation: success, approximately 2.666 s
 
 ## What the final trace proves
 
-The final judge-path request reached the deployed AgentCore Runtime, executed the Strands orchestration path, selected Neighbor A for Pika's dinner mission, preserved the 19:00 target and CaniBowl Chicken 100g feeding context, and stopped at the human approval boundary with `Owner Approval Required: Yes`.
+The final judge-path request reached the deployed AgentCore Runtime, executed the Strands orchestration path, selected synthetic Neighbor A for synthetic Pika's dinner mission, preserved the 19:00 target and CaniBowl Chicken 100g feeding context, and stopped at the human approval boundary with `Owner Approval Required: Yes`.
 
 ## Judge-safe interpretation
 
@@ -26,6 +24,10 @@ CaniFriend exposes decision and tool outcomes for auditability without displayin
 
 ## Safety boundary
 
-**AI recommends. Policy authorizes. Human approves consequential care handoffs.**
+**AI recommends. Policy authorizes. Humans approve consequential care handoffs.**
 
-The model cannot approve the owner handoff, accept on behalf of a carer, complete physical care, or write the authoritative CAIOS CareEvent.
+The model cannot approve the owner handoff, accept on behalf of a carer, complete physical care, or write an authoritative CAIOS CareEvent by itself.
+
+## Public evidence policy
+
+Screenshots or recordings used for judging should likewise redact AWS account numbers, principal/role ARNs, registry URLs, temporary credentials, presigned URLs, request authorization headers, private endpoints, and unrelated production telemetry.
