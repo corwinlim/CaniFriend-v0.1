@@ -1,0 +1,19 @@
+{
+  "schema": "canifriend.aws-bedrock-access-proof.v1",
+  "status": "PASS",
+  "verified_at": "2026-09-12T14:00:00Z",
+  "region": "us-west-2",
+  "model_id": "amazon.nova-lite-v1:0",
+  "runtime": "CaniFriendRuntime",
+  "runtime_status": "READY",
+  "identity_type": "dedicated_agentcore_execution_role",
+  "trust_source_account_guard": true,
+  "trust_source_arn_guard": true,
+  "allowed_action": "bedrock:InvokeModel",
+  "allowed_model_count": 1,
+  "streaming_inference_allowed": false,
+  "unselected_model_allowed": false,
+  "agentcore_http_status": 200,
+  "bedrock_latency_ms": 1417,
+  "secrets_in_artifact": false
+}
