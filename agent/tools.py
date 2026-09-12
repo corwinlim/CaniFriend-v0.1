@@ -16,6 +16,16 @@ CARERS = [
     CarerCandidate("neighbor-b", "Neighbor B", "trusted neighbor", True, "medium", 3, 0.94, ("walk", "feed")),
 ]
 
+TASK_ALIASES = {
+    "feed": "feed",
+    "feeding": "feed",
+    "dinner": "feed",
+    "meal": "feed",
+    "give dinner": "feed",
+    "walk": "walk",
+    "walking": "walk",
+}
+
 PLANS: dict[str, CarePlan] = {}
 
 
@@ -26,7 +36,14 @@ def _normalize_pet_id(pet_id: str) -> str:
     for stored_id, pet in PETS.items():
         if pet.name.lower() == key:
             return stored_id
-    raise KeyError(pet_id)
+    raise KeyError(f"Unknown pet_id: {pet_id}")
+
+
+def _normalize_task(task: str) -> str:
+    key = " ".join(task.strip().lower().replace("_", " ").split())
+    if key in TASK_ALIASES:
+        return TASK_ALIASES[key]
+    raise ValueError(f"Unsupported care task: {task}")
 
 
 def get_pet_context(pet_id: str) -> dict:
@@ -34,14 +51,21 @@ def get_pet_context(pet_id: str) -> dict:
 
 
 def find_trusted_carers(pet_id: str, task: str, time: str) -> list[dict]:
-    del pet_id, time
-    eligible = [c for c in CARERS if c.available and task in c.authorized_tasks]
+    _normalize_pet_id(pet_id)
+    canonical_task = _normalize_task(task)
+    if not time or len(time) > 32:
+        raise ValueError("A bounded target time is required")
+    eligible = [c for c in CARERS if c.available and canonical_task in c.authorized_tasks]
     eligible.sort(key=lambda c: (c.familiarity == "high", c.completion_rate, c.previous_tasks), reverse=True)
     return [asdict(c) for c in eligible]
 
 
 def create_care_plan(pet_id: str, task: str, candidate_id: str, target_time: str = "19:00") -> dict:
     pet_id = _normalize_pet_id(pet_id)
+    task = _normalize_task(task)
+    candidate = next((c for c in CARERS if c.carer_id == candidate_id), None)
+    if candidate is None or not candidate.available or task not in candidate.authorized_tasks:
+        raise PermissionError("Candidate is not available and authorized for this task")
     plan = CarePlan(plan_id=f"plan-{pet_id}-{candidate_id}", pet_id=pet_id,
                     carer_id=candidate_id, task=task, target_time=target_time)
     PLANS[plan.plan_id] = plan
