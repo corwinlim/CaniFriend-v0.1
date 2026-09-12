@@ -1,6 +1,6 @@
 # CaniFriend v0.1 — Public Release Manifest
 
-Status: **PRE-PUBLISH**. This document defines the intended public hackathon boundary. It does not authorize changing repository visibility.
+Status: **PRE-PUBLISH / RC CERTIFICATION IN PROGRESS**. This document defines the intended public hackathon boundary. It does not authorize changing repository visibility.
 
 ## Include
 
@@ -10,6 +10,7 @@ The following repository surfaces are intended to be public for the Agents for H
 - `README.md`
 - `pyproject.toml`
 - `vercel.json`
+- `.github/workflows/release-candidate.yml` — exact-checkout release certification
 - `agent/` — Strands agent, deterministic care logic, audit helper, synthetic/demo tools, runtime entrypoint
 - `shared/` — hackathon-safe data contracts
 - `tests/` — safety, state-transition, runtime, demo, and proof tests
@@ -49,6 +50,12 @@ Public proof should establish the technical claim while minimizing infrastructur
 
 Do not publish account-specific control-plane identifiers merely to make the proof look more detailed.
 
+## Release-candidate certification
+
+`.github/workflows/release-candidate.yml` performs the exact-repository gate on a fresh GitHub-hosted runner. It checks out the commit, sets up Python 3.11, installs `agent/requirements.txt`, runs the full `pytest -q` suite, executes the deterministic Pika dinner path, and asserts that Neighbor A is selected while the care plan remains `proposed`, `owner_approved=false`, and `requires_owner_approval=true`.
+
+A workflow file existing in the repository is not itself a PASS. This gate becomes PASS only after a completed successful run is observed for the current release candidate.
+
 ## Publication gates
 
 Before changing repository visibility to public, all of the following must be true:
@@ -56,8 +63,8 @@ Before changing repository visibility to public, all of the following must be tr
 1. Repository-wide secret-pattern scan has no unresolved findings.
 2. Human review confirms no real customer, owner, veterinary, or operational data is present.
 3. README cold-start instructions are internally consistent with the repository.
-4. A clean clone installs dependencies and executes `pytest -q` successfully in a supported Python environment.
-5. The deterministic Pika dinner judge path runs from the clean clone and stops at the human approval boundary.
+4. Exact-checkout RC certification installs dependencies and executes `pytest -q` successfully in a supported Python environment.
+5. The deterministic Pika dinner judge path passes and stops at the human approval boundary.
 6. Architecture and proof docs contain no unnecessary account-specific/private deployment identifiers.
 7. Demo screenshots/video are separately checked for secrets and private AWS identifiers.
 8. Repository still contains the MIT `LICENSE` and the prior-work / Background-IP disclosure.
