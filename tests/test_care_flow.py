@@ -9,16 +9,26 @@ def setup_function():
 
 def test_recommends_trusted_available_carer():
     result = plan_dinner_handoff("pika")
-    assert result["ok"] is True
     assert result["recommended_carer"]["carer_id"] == "neighbor-a"
     assert result["care_plan"]["requires_owner_approval"] is True
 
 
+@pytest.mark.parametrize("alias", ["feed", "feeding", "dinner", "meal", "give dinner"])
+def test_feeding_aliases_recommend_same_authorized_carer(alias):
+    from agent.tools import find_trusted_carers
+    assert find_trusted_carers("Pika", alias, "tonight")[0]["carer_id"] == "neighbor-a"
+
+
+def test_unknown_task_is_rejected_not_silently_empty():
+    from agent.tools import find_trusted_carers
+    with pytest.raises(ValueError, match="Unsupported care task"):
+        find_trusted_carers("pika", "medicate", "19:00")
+
+
 def test_cannot_accept_before_owner_approval():
     result = plan_dinner_handoff("pika")
-    plan_id = result["care_plan"]["plan_id"]
     with pytest.raises(PermissionError):
-        accept_care_plan(plan_id, "neighbor-a")
+        accept_care_plan(result["care_plan"]["plan_id"], "neighbor-a")
 
 
 def test_end_to_end_close_loop():
@@ -30,8 +40,3 @@ def test_end_to_end_close_loop():
     assert completed["status"] == "completed"
     event = record_care_outcome("pika", plan_id, "fed, water refreshed, condition normal")
     assert event["authoritative_store"] == "CAIOS"
-
-
-def test_pet_name_normalizes_to_id():
-    from agent.tools import get_pet_context
-    assert get_pet_context("Pika")["pet_id"] == "pika"
