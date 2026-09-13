@@ -1,19 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "outputDirectory": "web",
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/", "destination": "/demo.html" },
-    { "source": "/demo", "destination": "/demo.html" },
-    { "source": "/demo.js", "destination": "/demo.js" }
+  "version": 2,
+  "builds": [
+    { "src": "web/**", "use": "@vercel/static" }
   ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
-      ]
-    }
+  "routes": [
+    { "src": "/", "dest": "/web/demo.html" },
+    { "src": "/demo", "dest": "/web/demo.html" },
+    { "src": "/demo.js", "dest": "/web/demo.js" },
+    { "handle": "filesystem" }
   ]
 }
