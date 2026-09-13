@@ -3,69 +3,122 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CaniFriend — Judge Recording Mode</title>
+  <meta name="theme-color" content="#f7f5ee" />
+  <title>CaniFriend — Trusted neighborhood pet care</title>
   <style>
-    :root{--cream:#f7f4ea;--paper:#fffdf7;--ink:#18322a;--muted:#6d786f;--green:#386c55;--green2:#e5efe7;--line:#d9dfd7;--amber:#f4ead0;--shadow:0 18px 60px rgba(35,57,46,.12)}
-    *{box-sizing:border-box} body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    button,textarea{font:inherit} button{cursor:pointer}.shell{min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;padding:28px;max-width:1260px;margin:auto}
-    .phone{background:var(--paper);border:1px solid var(--line);border-radius:34px;box-shadow:var(--shadow);min-height:760px;overflow:hidden;position:relative}.top{display:flex;justify-content:space-between;align-items:center;padding:22px 26px;border-bottom:1px solid var(--line)}
-    .brand{font-weight:800;letter-spacing:-.03em;font-size:22px}.live{display:inline-flex;align-items:center;gap:8px;background:var(--green2);padding:8px 12px;border-radius:999px;font-size:13px;font-weight:700}.dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
-    main{padding:30px}.screen{display:none;animation:fade .25s ease}.screen.active{display:block}@keyframes fade{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
-    h1{font-size:42px;line-height:1.03;letter-spacing:-.045em;margin:12px 0 12px;max-width:720px}h2{font-size:30px;letter-spacing:-.035em;margin:0 0 12px}.sub{color:var(--muted);font-size:17px;line-height:1.55;max-width:670px}.pet{display:flex;align-items:center;gap:14px;margin-bottom:24px}.avatar{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--green2);font-size:28px}.pet strong{display:block;font-size:18px}.pet span{color:var(--muted)}
-    .card{border:1px solid var(--line);border-radius:22px;padding:20px;margin:18px 0;background:#fff}.status{display:flex;justify-content:space-between;gap:16px;align-items:center}.warn{background:var(--amber);border:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.metric{padding:14px;border-radius:16px;background:var(--green2)}.metric small{display:block;color:var(--muted);margin-bottom:4px}.metric b{font-size:18px}
-    textarea{width:100%;min-height:105px;border:1px solid var(--line);border-radius:18px;padding:16px;background:#fff;color:var(--ink);resize:none;line-height:1.5}.primary{border:0;border-radius:16px;background:var(--green);color:white;padding:15px 20px;font-weight:800;font-size:16px}.secondary{border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);padding:11px 14px;font-weight:700}.wide{width:100%;margin-top:14px}.reason{border-left:4px solid var(--green);padding-left:14px;color:var(--muted);line-height:1.5}.gate{border:2px solid var(--green);background:var(--green2)}.gate-title{font-size:14px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.checks label{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-weight:650}.checks input{width:20px;height:20px}.complete{font-size:46px;font-weight:900;letter-spacing:-.045em}.proof{display:grid;gap:10px}.proof div{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
-    aside{display:flex;flex-direction:column;gap:14px}.panel{background:rgba(255,253,247,.86);border:1px solid var(--line);border-radius:22px;padding:18px}.panel h3{margin:0 0 12px;font-size:15px}.trace{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.6;color:#40564c;min-height:260px}.trace div{padding:7px 0;border-bottom:1px dashed var(--line)}.controls{display:flex;gap:8px;flex-wrap:wrap}.golden{font-size:13px;color:var(--muted);line-height:1.5}.step{font-weight:800;color:var(--green)}
-    @media(max-width:900px){.shell{grid-template-columns:1fr;padding:12px}.phone{min-height:720px;border-radius:24px}aside{display:none}main{padding:22px}h1{font-size:36px}.grid{grid-template-columns:1fr 1fr}}
+    :root{
+      --bg:#f7f5ee;--surface:#fffefa;--surface2:#f0f5ef;--ink:#15251f;--muted:#68736d;
+      --green:#1f7a57;--green-dark:#155d43;--green-soft:#e5f1ea;--peach:#f4d7c6;--amber:#f5e6bd;
+      --line:#dfe5df;--shadow:0 14px 40px rgba(32,54,43,.08);--radius:24px;
+    }
+    *{box-sizing:border-box} html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,textarea{font:inherit} button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-columns:236px minmax(0,1fr);max-width:1540px;margin:auto;background:var(--bg)}
+    .sidebar{padding:24px 18px;border-right:1px solid rgba(116,132,122,.16);background:rgba(255,254,250,.72);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:22px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:25px;letter-spacing:-.04em}.mark{width:38px;height:38px;border-radius:14px;background:var(--green);color:white;display:grid;place-items:center;font-size:21px;box-shadow:0 8px 20px rgba(31,122,87,.2)}
+    .tag{font-size:12px;color:var(--muted);margin:1px 0 0 50px}.nav{display:grid;gap:8px}.nav button{border:0;background:transparent;text-align:left;padding:13px 14px;border-radius:14px;color:#33443c;font-weight:700}.nav button.active,.nav button:hover{background:var(--green-soft);color:var(--green-dark)}
+    .sidebar-note{margin-top:auto;padding:18px;border-radius:20px;background:linear-gradient(160deg,#eef7f1,#fff6ef);border:1px solid #e1ebe4}.sidebar-note b{display:block;font-size:20px;line-height:1.15;margin-bottom:8px}.sidebar-note p{margin:0;color:var(--muted);line-height:1.5;font-size:13px}
+    .main{min-width:0;padding:24px 28px 42px}.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}.hello{font-size:14px;color:var(--muted)}.person{display:flex;align-items:center;gap:10px;font-weight:800}.person-dot{width:36px;height:36px;border-radius:50%;background:var(--green-soft);display:grid;place-items:center;color:var(--green-dark)}
+    .home-grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px}.hero{position:relative;overflow:hidden;min-height:300px;border-radius:30px;background:linear-gradient(110deg,#fff5e9 0%,#f0e3d0 53%,#dceadf 100%);box-shadow:var(--shadow);padding:38px;display:flex;align-items:center}.hero:after{content:"🐕";position:absolute;right:74px;bottom:10px;font-size:190px;filter:drop-shadow(0 15px 15px rgba(40,50,44,.12));opacity:.95}.hero-copy{position:relative;z-index:1;max-width:620px}.hero h1{font-size:50px;line-height:1.02;letter-spacing:-.05em;margin:8px 0 14px}.hero p{font-size:18px;line-height:1.55;color:#47574f;max-width:520px;margin:0 0 24px}.due{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:22px}.chip{padding:9px 12px;border-radius:999px;background:rgba(255,255,255,.8);font-size:13px;font-weight:800;border:1px solid rgba(255,255,255,.6)}.chip.warn{background:#fff1ec;color:#a5422d}.primary{border:0;border-radius:16px;background:var(--green);color:white;padding:14px 20px;font-weight:850;font-size:16px;box-shadow:0 8px 18px rgba(31,122,87,.17)}.primary:hover{background:var(--green-dark)}.secondary{border:1px solid var(--line);border-radius:14px;background:white;color:var(--ink);padding:11px 14px;font-weight:750}.wide{width:100%}
+    .safety{border-radius:26px;background:linear-gradient(160deg,#eaf6ee,#f8fff8);padding:24px;border:1px solid #dfece2;box-shadow:var(--shadow)}.safety h3{font-size:22px;margin:0 0 10px}.safety p{color:var(--muted);line-height:1.5;margin:0 0 18px}.safe-row{display:flex;align-items:flex-start;gap:10px;margin:12px 0;font-size:14px}.tick{width:24px;height:24px;border-radius:50%;background:var(--green);color:white;display:grid;place-items:center;flex:none;font-size:13px}
+    .section{margin-top:18px}.section-head{display:flex;justify-content:space-between;align-items-end;margin-bottom:10px}.section-head h2{margin:0;font-size:23px;letter-spacing:-.03em}.section-head span{color:var(--muted);font-size:13px}.cards{display:grid;grid-template-columns:1.2fr 1fr;gap:18px}.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}.care-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.metric{padding:16px;border-radius:16px;background:#f8faf7}.metric small{display:block;color:var(--muted);margin-bottom:7px}.metric b{font-size:16px}.request textarea{width:100%;min-height:112px;border:1px solid var(--line);border-radius:16px;padding:15px;background:#fff;color:var(--ink);resize:vertical;line-height:1.5;font-size:16px}.request .actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px}.privacy{font-size:12px;color:var(--muted)}
+    .trusted-list{display:grid;gap:10px}.trusted-item{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:12px;border-radius:16px;background:#fbfcfa}.avatar{width:44px;height:44px;border-radius:50%;background:var(--green-soft);display:grid;place-items:center;font-size:21px}.trusted-item b{display:block}.trusted-item small{color:var(--muted)}.status{font-size:12px;font-weight:800;padding:7px 10px;border-radius:999px;background:var(--green-soft);color:var(--green-dark)}.status.off{background:#f0f0ef;color:#727875}
+    .recent{display:grid;gap:12px}.activity{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:start}.activity .icon{width:26px;height:26px;border-radius:50%;background:var(--green-soft);color:var(--green-dark);display:grid;place-items:center;font-size:13px}.activity b{font-size:14px}.activity small{display:block;color:var(--muted);margin-top:2px}.time{color:var(--muted);font-size:12px}
+    .aws-strip{margin-top:18px;padding:16px 18px;border-radius:18px;background:#f2effd;border:1px solid #e3dcfb;display:flex;justify-content:space-between;gap:16px;align-items:center}.aws-strip b{display:block}.aws-strip span{font-size:13px;color:#5c6370}
+    .judge{margin-top:12px;border:1px solid #e4dcf5;background:#faf8ff;border-radius:18px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}.judge button{border:0;background:transparent;color:#4f3c75;font-weight:850}
+    .flow-shell{display:none}.flow-shell.active{display:block}.screen{display:none}.screen.active{display:block}.flow-wrap{max-width:900px;margin:36px auto}.flow-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.step{font-weight:850;color:var(--green)}.flow-card{background:var(--surface);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:30px}.flow-card h2{font-size:32px;letter-spacing:-.04em;margin:0 0 10px}.sub{color:var(--muted);font-size:16px;line-height:1.55}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.metric.big{padding:18px}.reason{border-left:4px solid var(--green);padding-left:14px;color:var(--muted);line-height:1.5}.gate{border:2px solid var(--green);background:var(--green-soft);border-radius:20px;padding:20px;margin:20px 0}.gate-title{font-size:13px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.checks label{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-weight:700}.checks input{width:20px;height:20px}.complete{font-size:46px;font-weight:950;letter-spacing:-.05em;color:var(--green-dark)}.proof{display:grid;gap:8px;margin:18px 0}.proof div{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
+    .drawer{position:fixed;right:20px;bottom:20px;width:min(440px,calc(100vw - 40px));max-height:72vh;overflow:auto;background:#111b17;color:#eaf3ed;border-radius:22px;box-shadow:0 28px 80px rgba(0,0,0,.3);padding:18px;z-index:20;display:none}.drawer.open{display:block}.drawer h3{margin:0 0 10px}.drawer .trace{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.55;color:#c8d8cf}.drawer .trace div{padding:7px 0;border-bottom:1px dashed #33433b}.drawer .drawer-actions{display:flex;justify-content:space-between;gap:8px;margin-bottom:10px}.drawer .secondary{background:#1d2a24;color:white;border-color:#425249}.safety-note{margin-top:12px;color:#b9c9c0;font-size:12px;line-height:1.5}
+    @media(max-width:1050px){.app{grid-template-columns:84px minmax(0,1fr)}.sidebar{padding:18px 12px}.brand span,.tag,.nav button span,.sidebar-note{display:none}.nav button{text-align:center;padding:13px 8px}.mark{margin:auto}.home-grid{grid-template-columns:1fr}.safety{display:none}.cards{grid-template-columns:1fr}.hero:after{font-size:150px;right:18px}.hero-copy{max-width:560px}}
+    @media(max-width:720px){.app{display:block}.sidebar{position:fixed;bottom:0;top:auto;left:0;right:0;height:auto;z-index:30;border-top:1px solid var(--line);border-right:0;padding:8px 10px;background:#fffdf8}.brand,.tag,.sidebar-note{display:none}.nav{grid-template-columns:repeat(5,1fr);gap:3px}.nav button{font-size:11px;padding:9px 4px}.nav button:nth-child(n+6){display:none}.main{padding:16px 14px 92px}.topbar{margin-bottom:12px}.hero{padding:24px;min-height:340px;align-items:flex-start}.hero h1{font-size:38px;max-width:390px}.hero p{font-size:16px;max-width:310px}.hero:after{font-size:130px;right:8px;bottom:-6px;opacity:.75}.care-row,.grid2{grid-template-columns:1fr}.request .actions{align-items:stretch;flex-direction:column}.aws-strip{align-items:flex-start;flex-direction:column}.flow-wrap{margin:12px auto}.flow-card{padding:22px;border-radius:22px}.flow-card h2{font-size:28px}}
   </style>
 </head>
 <body>
-<div class="shell">
-  <section class="phone" aria-label="CaniFriend judge demo">
-    <header class="top"><div class="brand">CaniFriend</div><div class="live"><span class="dot"></span><span id="liveLabel">Live AgentCore</span></div></header>
-    <main>
-      <section class="screen active" data-screen="home">
-        <div class="pet"><div class="avatar">🐾</div><div><strong>Pika</strong><span>Pomeranian · CAIOS companion</span></div></div>
-        <h1>Pika needs dinner tonight.</h1><p class="sub">No caregiver confirmed. CaniFriend can coordinate someone Pika already knows and trusts.</p>
-        <div class="card warn status"><div><strong>Tonight’s care</strong><div class="sub">Dinner · target 7:00 PM</div></div><span>Needs backup</span></div>
-        <textarea id="request">I can't get home tonight. Make sure Pika gets dinner.</textarea>
-        <button class="primary wide" onclick="findCare()">Find someone I trust</button>
-      </section>
-
-      <section class="screen" data-screen="match">
-        <div class="pet"><div class="avatar">🐾</div><div><strong>Pika</strong><span>Minimum necessary care context</span></div></div>
-        <h2>Neighbor A is the strongest match.</h2><p class="sub">CaniFriend checked availability, authorization, familiarity and previous care outcomes.</p>
-        <div class="card"><div class="grid"><div class="metric"><small>Dinner</small><b>CaniBowl Chicken 100g</b></div><div class="metric"><small>Target</small><b>7:00 PM</b></div><div class="metric"><small>Familiarity</small><b>High</b></div><div class="metric"><small>History</small><b>8 tasks · 100%</b></div></div></div>
-        <div class="card"><strong>Neighbor A · Recommended</strong><p class="reason">Available tonight, authorized for feeding, already knows Pika, and has completed 8 previous care tasks.</p></div>
-        <button class="primary wide" onclick="showScreen('approval')">Review care plan</button>
-      </section>
-
-      <section class="screen" data-screen="approval">
-        <h2>You stay in control.</h2><p class="sub">The agent may recommend a handoff. It cannot authorize one.</p>
-        <div class="card gate"><div class="gate-title">Owner Approval Required</div><h2 style="margin-top:10px">Neighbor A · Feed Pika · 7:00 PM</h2><p>Share only tonight’s feeding instructions, water check and general-condition note.</p></div>
-        <button class="primary wide" onclick="approveCare()">Approve Care Plan</button>
-      </section>
-
-      <section class="screen" data-screen="mission">
-        <div class="pet"><div class="avatar">🐾</div><div><strong>Pika’s Dinner</strong><span>Approved care mission · Neighbor A</span></div></div>
-        <h2>Simple instructions. Minimum data.</h2>
-        <div class="card"><strong>CaniBowl Chicken · 100g</strong><div class="sub">Target 7:00 PM</div><div class="checks"><label><input id="feed" type="checkbox"> Feed Pika</label><label><input id="water" type="checkbox"> Refresh water</label><label><input id="condition" type="checkbox"> Check general condition</label></div></div>
-        <button class="primary wide" onclick="completeCare()">Complete Care + Proof</button>
-      </section>
-
-      <section class="screen" data-screen="complete">
-        <div class="complete">CARE COMPLETE ✓</div><p class="sub">The physical task is finished, proof is captured, and the verified outcome is ready for Pika’s longitudinal record.</p>
-        <div class="card proof"><div><span>Fed</span><b>7:04 PM ✓</b></div><div><span>Water</span><b>Refreshed ✓</b></div><div><span>Condition</span><b>Normal ✓</b></div><div><span>Proof</span><b>Received ✓</b></div><div><span>CAIOS CareEvent</span><b id="recordState">Recording…</b></div></div>
-        <button class="secondary wide" onclick="resetDemo()">Reset Demo</button>
-      </section>
-    </main>
-  </section>
-
-  <aside>
-    <div class="panel"><h3>Judge Recording Mode</h3><div class="golden"><span class="step" id="stepLabel">1 / 5 · Care Need</span><br>Golden path is fixed to Pika → Neighbor A → owner approval → care proof → CAIOS.</div></div>
-    <div class="panel"><h3>Agent trace</h3><div class="trace" id="trace"><div>Ready · waiting for owner request</div></div></div>
-    <div class="panel"><h3>Recording controls</h3><div class="controls"><button class="secondary" onclick="resetDemo()">Reset Demo</button><button class="secondary" onclick="toggleTrace()">Toggle Agent trace</button></div></div>
-    <div class="panel golden"><strong>Safety boundary</strong><br><br>AI recommends. Policy authorizes. Human approves consequential care handoffs.</div>
+<div class="app">
+  <aside class="sidebar">
+    <div><div class="brand"><div class="mark">🐾</div><span>CaniFriend</span></div><div class="tag">Good neighbors. Happier pets.</div></div>
+    <nav class="nav" aria-label="Primary">
+      <button class="active" onclick="goHome()">🏠 <span>Home</span></button>
+      <button onclick="goHome()">🐾 <span>Pika</span></button>
+      <button onclick="goHome()">👥 <span>Trusted Circle</span></button>
+      <button onclick="goHome()">📝 <span>Care Requests</span></button>
+      <button onclick="goHome()">🕘 <span>Care History</span></button>
+      <button onclick="goHome()">💬 <span>Messages</span></button>
+      <button onclick="goHome()">⚙️ <span>Settings</span></button>
+    </nav>
+    <div class="sidebar-note"><b>Stronger communities. Happier pets.</b><p>AI coordinates the people you already trust — with clear boundaries and human approval.</p></div>
   </aside>
+
+  <main class="main">
+    <div class="topbar"><div class="hello">CaniFriend · trusted neighborhood care</div><div class="person"><div class="person-dot">C</div>Corwin</div></div>
+
+    <div id="homeView">
+      <div class="home-grid">
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="hello">Good afternoon, Corwin</div>
+            <h1>Pika needs dinner tonight.</h1>
+            <p>CaniFriend helps you coordinate someone Pika already knows and trusts — without sharing more data than the task needs.</p>
+            <div class="due"><span class="chip">Dinner · 7:00 PM</span><span class="chip">CaniBowl Chicken · 100g</span><span class="chip warn">No carer confirmed yet</span></div>
+            <button class="primary" onclick="findCare()">Find someone I trust →</button>
+          </div>
+        </section>
+        <aside class="safety">
+          <h3>Pets are safer together.</h3><p>AI handles the coordination. You keep control of consequential handoffs.</p>
+          <div class="safe-row"><span class="tick">✓</span><span>Only trusted, authorized people are considered.</span></div>
+          <div class="safe-row"><span class="tick">✓</span><span>Only minimum necessary care context is shared.</span></div>
+          <div class="safe-row"><span class="tick">✓</span><span>Owner approval is required before the handoff.</span></div>
+          <div class="safe-row"><span class="tick">✓</span><span>Verified outcomes are recorded to CAIOS.</span></div>
+        </aside>
+      </div>
+
+      <section class="section cards">
+        <div>
+          <div class="section-head"><h2>Tonight's care</h2><span>Pending</span></div>
+          <div class="panel care-row">
+            <div class="metric"><small>Task</small><b>Dinner</b></div><div class="metric"><small>Target time</small><b>7:00 PM</b></div><div class="metric"><small>Status</small><b>No carer confirmed</b></div>
+          </div>
+          <div class="section-head" style="margin-top:18px"><h2>Trusted Circle</h2><span>People Pika already knows</span></div>
+          <div class="panel trusted-list">
+            <div class="trusted-item"><div class="avatar">👤</div><div><b>Neighbor A</b><small>Already helped Pika 8 times · strongest match</small></div><span class="status">Available</span></div>
+            <div class="trusted-item"><div class="avatar">🏠</div><div><b>Family</b><small>Trusted family member · away this week</small></div><span class="status off">Away</span></div>
+            <div class="trusted-item"><div class="avatar">✂️</div><div><b>Groomer</b><small>Professional care · not relevant tonight</small></div><span class="status off">Not relevant</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="section-head"><h2>Quick request</h2><span>Natural language</span></div>
+          <div class="panel request"><textarea id="request">I can't get home tonight. Make sure Pika gets dinner.</textarea><div class="actions"><span class="privacy">🔒 Minimum necessary context only</span><button class="primary" onclick="findCare()">Find someone I trust</button></div></div>
+          <div class="section-head" style="margin-top:18px"><h2>Recent care</h2><span>Verified outcomes</span></div>
+          <div class="panel recent">
+            <div class="activity"><span class="icon">✓</span><div><b>Dinner completed</b><small>Pika's dinner was served at 7:04 PM</small></div><span class="time">2d ago</span></div>
+            <div class="activity"><span class="icon">✓</span><div><b>Neighbor A accepted</b><small>Confirmed trusted dinner care</small></div><span class="time">2d ago</span></div>
+            <div class="activity"><span class="icon">✓</span><div><b>CAIOS CareEvent</b><small>Verified outcome recorded</small></div><span class="time">2d ago</span></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="aws-strip"><div><b>Powered by the CaniFriend agent stack</b><span>Strands Agents SDK · Amazon Bedrock AgentCore · Amazon Nova Lite · CloudWatch</span></div><span>Production runtime proof available</span></div>
+      <div class="judge"><div><b>Judge / Safety Details</b><div class="hello">Agent trace, deterministic transitions, data boundaries and runtime proof.</div></div><button onclick="toggleTrace()">Open details →</button></div>
+    </div>
+
+    <div id="flowView" class="flow-shell">
+      <div class="flow-wrap">
+        <div class="flow-top"><button class="secondary" onclick="goHome()">← Back home</button><span class="step" id="stepLabel">1 / 5 · Care Need</span></div>
+
+        <section class="screen" data-screen="match"><div class="flow-card"><h2>Neighbor A is the strongest trusted match.</h2><p class="sub">CaniFriend checked authorization, availability, familiarity and previous care outcomes.</p><div class="grid2" style="margin-top:18px"><div class="metric big"><small>Dinner</small><b>CaniBowl Chicken 100g</b></div><div class="metric big"><small>Target</small><b>7:00 PM</b></div><div class="metric big"><small>Familiarity</small><b>High</b></div><div class="metric big"><small>History</small><b>8 tasks · 100%</b></div></div><div class="panel" style="margin-top:18px"><b>Neighbor A · Recommended</b><p class="reason">Available tonight, authorized for feeding, already knows Pika, and has completed 8 previous care tasks.</p></div><button class="primary wide" onclick="showScreen('approval')">Review care plan</button></div></section>
+
+        <section class="screen" data-screen="approval"><div class="flow-card"><h2>You stay in control.</h2><p class="sub">The agent may recommend a handoff. It cannot authorize one.</p><div class="gate"><div class="gate-title">Owner Approval Required</div><h2 style="margin-top:10px">Neighbor A · Feed Pika · 7:00 PM</h2><p>Share only tonight's feeding instructions, water check and general-condition note.</p></div><button class="primary wide" onclick="approveCare()">Approve Care Plan</button></div></section>
+
+        <section class="screen" data-screen="mission"><div class="flow-card"><h2>Pika's Care Mission</h2><p class="sub">Approved care mission · Neighbor A · minimum necessary data.</p><div class="panel" style="margin-top:18px"><b>CaniBowl Chicken · 100g</b><div class="sub">Target 7:00 PM</div><div class="checks"><label><input id="feed" type="checkbox"> Feed Pika</label><label><input id="water" type="checkbox"> Refresh water</label><label><input id="condition" type="checkbox"> Check general condition</label></div></div><button class="primary wide" onclick="completeCare()">Complete Care + Proof</button></div></section>
+
+        <section class="screen" data-screen="complete"><div class="flow-card"><div class="complete">CARE COMPLETE ✓</div><p class="sub">The physical task is finished, proof is captured, and the verified outcome is ready for Pika's longitudinal record.</p><div class="proof"><div><span>Fed</span><b>7:04 PM ✓</b></div><div><span>Water</span><b>Refreshed ✓</b></div><div><span>Condition</span><b>Normal ✓</b></div><div><span>Proof</span><b>Received ✓</b></div><div><span>CAIOS CareEvent</span><b id="recordState">Recording…</b></div></div><button class="primary wide" onclick="goHome()">Back to CaniFriend Home</button></div></section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="judgeDrawer" class="drawer" aria-live="polite">
+  <div class="drawer-actions"><div><h3>Judge / Safety Details</h3><div class="hello" style="color:#9fb0a7">Deterministic golden path</div></div><button class="secondary" onclick="toggleTrace()">Close</button></div>
+  <div class="trace" id="trace"><div>Ready · waiting for owner request</div></div>
+  <div class="safety-note"><b>Safety boundary</b><br>LLM recommends. Policy authorizes. Human approves consequential handoff.</div>
 </div>
 <script src="demo.js"></script>
 </body>
