@@ -1,9 +1,11 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "outputDirectory": "web",
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/web/demo.html" },
-    { "source": "/demo", "destination": "/web/demo.html" },
-    { "source": "/demo.js", "destination": "/web/demo.js" }
+    { "source": "/", "destination": "/demo.html" },
+    { "source": "/demo", "destination": "/demo.html" },
+    { "source": "/demo.js", "destination": "/demo.js" }
   ],
   "headers": [
     {
